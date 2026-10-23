@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f6ff" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="A calmer way to stay on top of classes, assignments, and deadlines. Plan your week with TaskFlow." />
+    <title>TaskFlow — Student Task &amp; Deadline Tracker</title>
+    <script>
+      if (localStorage.getItem("taskflow-theme") === "dark") document.documentElement.dataset.theme = "dark";
+    </script>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='a' x2='1' y2='1'%3E%3Cstop stop-color='%238879f2'/%3E%3Cstop offset='1' stop-color='%235e4bc9'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='48' height='48' rx='14' fill='url(%23a)'/%3E%3Cpath d='M9 19 24 11l15 8-15 8-15-8Zm6 4v9c5 5 13 5 18 0v-9m6-4v12' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root { font-family: "DM Sans", sans-serif; color: #22283a; background: #f5f6ff; font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+      :root[data-theme="dark"] { color-scheme: dark; color: #f2ede3; background: #191714; }
+      * { box-sizing: border-box; }
+      body { min-width: 320px; min-height: 100vh; margin: 0; }
+      #root { min-height: 100vh; }
+      .boot-screen { position: fixed; inset: 0; display: grid; place-items: center; overflow: hidden; background: radial-gradient(ellipse at 52% 43%, #fff 0, #faf9ff 34%, #f1f3ff 77%); }
+      .boot-glow { position: absolute; width: 360px; height: 360px; border-radius: 50%; background: #a594f51c; filter: blur(60px); }
+      .boot-card { position: relative; display: flex; align-items: center; flex-direction: column; gap: 15px; padding: 35px 48px; border: 1px solid #ffffffc7; border-radius: 22px; background: #ffffffa8; box-shadow: 0 24px 80px #5149a414, 0 2px 10px #5149a40a; backdrop-filter: blur(18px); }
+      .boot-logo { position: relative; display: grid; width: 53px; height: 53px; overflow: hidden; place-items: center; border-radius: 17px; background: linear-gradient(135deg, #9385f7, #6955d9, #5140b5); background-size: 180% 180%; box-shadow: 0 9px 22px #6955d944; color: white; isolation: isolate; animation: emblem-arrive .75s cubic-bezier(.2,.8,.2,1) both, logo-aura 4s .75s ease-in-out infinite, logo-gradient 8s ease infinite; }
+      .boot-logo::before { position: absolute; inset: -65% auto -65% -45%; width: 37%; background: linear-gradient(90deg, transparent, #ffffff78, transparent); content: ""; transform: rotate(28deg); animation: logo-shimmer 5.5s 1s ease-in-out infinite; }
+      .boot-logo::after { position: absolute; z-index: 2; top: 8px; right: 8px; width: 8px; height: 8px; background: #fff8d7; content: ""; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: logo-sparkle 3.2s ease-in-out infinite; }
+      .boot-logo svg { position: relative; z-index: 1; animation: cap-float 3.8s ease-in-out infinite; transform-origin: 50% 60%; }
+      @keyframes logo-shimmer { 0%, 62%, 100% { left: -45%; opacity: 0; } 68% { opacity: .9; } 82% { left: 120%; opacity: 0; } }
+      @keyframes logo-sparkle { 0%, 68%, 100% { opacity: .25; transform: scale(.55) rotate(0deg); } 78% { opacity: 1; transform: scale(1.15) rotate(45deg); } 88% { opacity: .65; transform: scale(.8) rotate(90deg); } }
+      @keyframes cap-float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-1.5px) rotate(-2deg); } }
+      @keyframes emblem-arrive { from { opacity: 0; transform: translateY(8px) scale(.82) rotate(-8deg); } to { opacity: 1; transform: translateY(0) scale(1) rotate(0); } }
+      @keyframes logo-aura { 0%, 100% { box-shadow: 0 9px 22px #6955d944, 0 0 0 0 #8574e900; } 50% { box-shadow: 0 11px 26px #6955d955, 0 0 0 6px #8574e910; } }
+      @keyframes logo-aura-gold { 0%, 100% { box-shadow: 0 9px 22px #c29d5b35, 0 0 0 0 #d2b57900; } 50% { box-shadow: 0 11px 26px #c29d5b50, 0 0 0 6px #d2b57912; } }
+      @keyframes logo-gradient { 0%, 100% { background-position: 0% 45%; } 50% { background-position: 100% 55%; } }
+      .boot-title { color: #22283a; font: 800 23px/1 "Manrope", sans-serif; letter-spacing: -1.1px; }
+      .boot-title span { color: #7764eb; }
+      .boot-copy { margin-top: -8px; color: #8990a2; font-size: 11px; }
+      .boot-spinner { width: 17px; height: 17px; margin-top: 4px; border: 2px solid #e9e6fa; border-top-color: #7460db; border-radius: 50%; animation: boot-spin .8s linear infinite; }
+      :root[data-theme="dark"] .boot-screen { background: radial-gradient(ellipse at 52% 43%, #30291e 0, #211e19 45%, #191714 80%); }
+      :root[data-theme="dark"] .boot-glow { background: #d2b5791c; }
+      :root[data-theme="dark"] .boot-card { border-color: #ffffff12; background: #29251fbb; box-shadow: 0 24px 80px #0005, 0 2px 10px #0003; }
+      :root[data-theme="dark"] .boot-logo { background: linear-gradient(135deg, #eed7a1, #c5a262, #947543); background-size: 180% 180%; box-shadow: 0 9px 22px #c29d5b35; color: #211c14; }
+      :root[data-theme="dark"] .boot-logo { animation-name: emblem-arrive, logo-aura-gold, logo-gradient; }
+      :root[data-theme="dark"] .boot-logo { animation-duration: .75s, 4s, 8s; animation-delay: 0s, .75s, 0s; animation-timing-function: cubic-bezier(.2,.8,.2,1), ease-in-out, ease; }
+      :root[data-theme="dark"] .boot-logo::after { background: #fff1c7; }
+      :root[data-theme="dark"] .boot-title { color: #f2ede3; }
+      :root[data-theme="dark"] .boot-title span { color: #dfc58d; }
+      :root[data-theme="dark"] .boot-copy { color: #aaa292; }
+      :root[data-theme="dark"] .boot-spinner { border-color: #49402f; border-top-color: #d2b579; }
+      @keyframes boot-spin { to { transform: rotate(360deg); } }
+      @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot-screen" role="status" aria-label="Loading TaskFlow">
+        <div class="boot-glow"></div>
+        <div class="boot-card">
+          <div class="boot-logo" aria-hidden="true">
+            <svg width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-5 9 5-9 5-9-5Z"/><path d="M7 11.2V16c3 2.8 7 2.8 10 0v-4.8M21 9v7"/></svg>
+          </div>
+          <div class="boot-title">taskflow<span>.</span></div>
+          <div class="boot-copy">A little more organized, every day.</div>
+          <div class="boot-spinner" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+    <noscript><div style="padding:2rem;font:14px sans-serif;text-align:center">TaskFlow needs JavaScript enabled to manage your tasks.</div></noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
